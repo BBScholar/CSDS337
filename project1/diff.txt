@@ -1,0 +1,89 @@
+Only in front/input: PG1-1-break.t
+Only in front/input: PG1-1-correct2.t
+Only in front/input: PG1-1-correct.t
+Only in front/input: PG1-1-incorrect.t
+Only in front/input: PG1-2-correct.t
+Only in front/input: PG1-2-incorrect.t
+Only in front/inter: For.class
+Only in front/inter: For.java
+Binary files ../dragon-front-source/front/lexer/Lexer.class and front/lexer/Lexer.class differ
+diff --color -r ../dragon-front-source/front/lexer/Lexer.java front/lexer/Lexer.java
+15a16,21
+>         
+>       // reserve the 'for' keyword
+>       reserve(new Word("for", Tag.FOR));
+> 
+>       // reserve 'div' keyword
+>       reserve(new Word("div", Tag.DIV));
+Binary files ../dragon-front-source/front/lexer/Tag.class and front/lexer/Tag.class differ
+diff --color -r ../dragon-front-source/front/lexer/Tag.java front/lexer/Tag.java
+9c9,10
+<       OR    = 271,  REAL  = 272,  TEMP  = 273,  TRUE = 274, WHILE = 275;
+---
+>       OR    = 271,  REAL  = 272,  TEMP  = 273,  TRUE = 274, WHILE = 275,
+>       FOR = 276, DIV = 277;
+Only in front/output: PG1-1-break.i
+Only in front/output: PG1-1-correct2.i
+Only in front/output: PG1-1-correct.i
+Only in front/output: PG1-1-incorrect2.i
+Only in front/output: PG1-1-incorrect.i
+Only in front/output: PG1-2-correct.i
+Only in front/output: PG1-2-incorrect.i
+Only in ../dragon-front-source/front: p3_1_out.i
+Only in ../dragon-front-source/front: p3_out.i
+Binary files ../dragon-front-source/front/parser/Parser.class and front/parser/Parser.class differ
+diff --color -r ../dragon-front-source/front/parser/Parser.java front/parser/Parser.java
+73a74,79
+>     // add this to implement for loop
+>       case Tag.FOR:
+>          // created match node
+>          For forNode = new For();
+>          // set enclosing statement for break statements
+>          savedStmt = Stmt.Enclosing; Stmt.Enclosing = forNode;
+74a81,97
+>          match(Tag.FOR); match('(');
+> 
+>          s1 = (look.tag != ';') ? assign(false) : null;
+> 
+>          match(';');
+> 
+>          x = (look.tag != ';')  ? bool() : null;
+> 
+>          match(';');
+> 
+>          s2 = (look.tag != ')') ? assign(false) : null;
+> 
+>          match(')');
+>          s = stmt();
+>          forNode.init(s1, x, s2, s);
+>          Stmt.Enclosing = savedStmt;
+>          return forNode;
+113a137
+> 
+114a139,142
+>       return assign(true);
+>    }
+> 
+>    Stmt assign(boolean matchSemi) throws IOException {
+127c155,157
+<       match(';');
+---
+>       if(matchSemi) {
+>          match(';');
+>       }
+174c204
+<       Expr x = unary();
+---
+>       Expr x = div();
+176c206,214
+<          Token tok = look;  move();   x = new Arith(tok, x, unary());
+---
+>          Token tok = look;  move();   x = new Arith(tok, x, div());
+>       }
+>       return x;
+>    }
+> 
+>    Expr div() throws IOException {
+>       Expr x = unary();
+>       while(look.tag == Tag.DIV) {
+>          Token tok = look; move(); x = new Arith(tok, x, unary());

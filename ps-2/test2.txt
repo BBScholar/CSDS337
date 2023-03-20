@@ -1,0 +1,15 @@
+for(int i = 0; i < bruh; ++i) {
+
+    }
+
+    /*
+        /*
+            // testing
+        */
+
+    */
+
+
+    // testing testing hello
+
+this file   should              output 1 multi-line and 1 single-line comment

@@ -1,0 +1,39 @@
+
+Full diff: diff.txt (in this directory)
+
+lexer/Tag.java - modified:
+    FOR and DIV tags were added to the psuedo-enum defined in this file.
+
+    FOR = 276, DIV = 277
+
+lexer/Lexer.java - modified:
+    The keywords "for" and "div" were reserved like the other keywords in this file.
+    These words reference the new tags previously defined in Tag.java
+
+    reserve(new Word("for", Tag.FOR));
+    reserve(new Word("div", Tag.DIV));
+
+inter/For.java - new:
+    Added a new class. Extends Stmt class.
+
+    Takes in two statements and one boolean expression for loop part of forloop.
+    Takes an additional statement for the following code
+        - This doesn't need to be a Stmts because stmt can expand to a block
+    Throws error if expression is not of type boolean
+
+parser/Parser.java - modified 
+    - added a case to the switch statement within the "stmt()" function for the for loop statement type
+        - handles break statements, similar to while loop implementation
+        - all 3 'parameter' within for loop statement are optional and will match correctly
+
+    - modified assign method in order to allow optional matching of the semicolon via boolean parameter
+        - added overload with no parameter to allow for compatability with original calls to the function
+        - defaults to matching a semicolon
+
+    - added div() method in order to handle recursive definition of expressions utilizing the div operator
+        - recurses to unary() method as term() previously did in original version
+    - modified term() method to call div() instead of unary() in order to implement new operator
+
+input/* - new:
+    all input files are added. These are discussed in the results pdf
+

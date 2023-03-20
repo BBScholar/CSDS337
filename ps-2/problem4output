@@ -1,0 +1,53 @@
+File: test.txt
+
+(i is = j)
+// comment
+
+
+Characters: 22	Words: 8	Lines: 2
+Single-line comments: 1	Multi-line comments: 0
+For: 0	Do: 0	While: 0
+
+File: test2.txt
+
+for(int i = 0; i < bruh; ++i) {
+
+ }
+
+ /*
+ /*
+ // testing
+ */
+
+ */
+
+
+ // testing testing hello
+
+this file should output 1 multi-line and 1 single-line comment
+
+
+Characters: 210	Words: 41	Lines: 15
+Single-line comments: 1	Multi-line comments: 1
+For: 1	Do: 0	While: 0
+
+File: test3.txt
+
+
+
+do do do do 
+while while while while while 
+for for
+
+This file is supposed to report 4 dos, 5 whiles, and 2 fors
+
+
+Characters: 163	Words: 26	Lines: 7
+Single-line comments: 0	Multi-line comments: 0
+For: 2	Do: 4	While: 5
+
+
+Total for all 3 files:
+Characters: 395	Words: 75	Lines: 24
+Single-line comments: 2	Multi-line comments: 1
+For: 3	Do: 4	While: 5
