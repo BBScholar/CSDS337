@@ -17,6 +17,7 @@
 #include "../src/expressions/subtraction.h"
 #include "../src/expressions/multiplication.h"
 #include "../src/expressions/division.h"
+#include "../src/expressions/modulus.h"
 #include "../src/expressions/assignment.h"
 #include "../src/expressions/comparison.h"
 #include "../src/expressions/and.h"
@@ -234,6 +235,8 @@ unaryRelExpr: LOGICAL_NOT unaryRelExpr {
   //logical not isn't implmented in ast, so we just don't do anything
   $$ = $2;
  } | relExpr {$$ = $1;};
+
+
 relExpr: term relop term {
   $$ = new ASTExpressionComparison($2, std::unique_ptr<ASTExpression>($1), std::unique_ptr<ASTExpression>($3));
  } | term {$$ = $1;};
@@ -261,8 +264,9 @@ factor: primary {$$ = $1;} | factor ARITH_MULT primary {
   $$ = new ASTExpressionDivision(std::unique_ptr<ASTExpression>($1), std::unique_ptr<ASTExpression>($3));
  }| factor ARITH_MOD primary {
   //not implemented in AST
-  $$ = $1;
+  $$ = new ASTExpressionModulus(std::unique_ptr<ASTExpression>($1), std::unique_ptr<ASTExpression>($3));
  };
+
 primary: ID {
   $$ = new ASTExpressionVariable($1);
  }| LPAREN expr RPAREN {
@@ -272,6 +276,7 @@ primary: ID {
  }| constant {
   $$ = $1;
  };
+
 call: ID LPAREN args RPAREN {
   //convert args to a vector of unique ptrs:
   auto argVec = std::vector<std::unique_ptr<ASTExpression>>();

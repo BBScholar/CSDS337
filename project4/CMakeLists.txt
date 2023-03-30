@@ -29,5 +29,5 @@ FLEX_TARGET(Lexer "src/frontend/lexer.l" "${CMAKE_CURRENT_BINARY_DIR}/lex.yy.cc"
 ADD_FLEX_BISON_DEPENDENCY(Lexer Parser)
 
 # Finally link the program with LLVM.
-add_executable(${PROJECT_NAME} ${SOURCES} src/expressions/multiplication.cpp src/expressions/multiplication.h src/expressions/division.cpp src/expressions/division.h src/expressions/negative.cpp src/expressions/negative.h src/statements/return.cpp src/statements/return.h src/expressions/or.cpp src/expressions/or.h ${FLEX_Lexer_OUTPUTS} ${BISON_Parser_OUTPUTS})
+add_executable(${PROJECT_NAME} ${SOURCES} src/expressions/modulus.cpp src/expressions/multiplication.cpp src/expressions/multiplication.h src/expressions/division.cpp src/expressions/division.h src/expressions/negative.cpp src/expressions/negative.h src/statements/return.cpp src/statements/return.h src/expressions/or.cpp src/expressions/or.h ${FLEX_Lexer_OUTPUTS} ${BISON_Parser_OUTPUTS})
 target_link_libraries(${PROJECT_NAME} "${LLVM_FLAGS}")
