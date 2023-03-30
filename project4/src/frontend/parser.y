@@ -18,6 +18,7 @@
 #include "../src/expressions/multiplication.h"
 #include "../src/expressions/division.h"
 #include "../src/expressions/modulus.h"
+#include "../src/expressions/negative.h"
 #include "../src/expressions/assignment.h"
 #include "../src/expressions/comparison.h"
 #include "../src/expressions/and.h"
@@ -74,7 +75,7 @@ extern FILE *yyin;
 %type <vars> params paramList varDecs
 %type <stmt> stmt exprStmt selStmt iterStmt jumpStmt
 %type <stmtVec> stmts
-%type <exp> expr orExpr andExpr unaryRelExpr relExpr term factor primary call constant
+%type <exp> expr orExpr andExpr unaryRelExpr relExpr term factor primary call constant unary
 %type <exprVec> args
 %type <type> type
 %type <rel> relop
@@ -258,14 +259,17 @@ term: factor {$$ = $1;}| term ARITH_PLUS factor {
  }| term ARITH_MINUS factor {
   $$ = new ASTExpressionSubtraction(std::unique_ptr<ASTExpression>($1), std::unique_ptr<ASTExpression>($3));
  };
-factor: primary {$$ = $1;} | factor ARITH_MULT primary {
+factor: unary {$$ = $1;} | factor ARITH_MULT unary {
   $$ = new ASTExpressionMultiplication(std::unique_ptr<ASTExpression>($1), std::unique_ptr<ASTExpression>($3));
- }| factor ARITH_DIV primary {
+ }| factor ARITH_DIV unary {
   $$ = new ASTExpressionDivision(std::unique_ptr<ASTExpression>($1), std::unique_ptr<ASTExpression>($3));
- }| factor ARITH_MOD primary {
-  //not implemented in AST
+ }| factor ARITH_MOD unary {
   $$ = new ASTExpressionModulus(std::unique_ptr<ASTExpression>($1), std::unique_ptr<ASTExpression>($3));
  };
+
+unary: ARITH_MINUS primary {
+  $$ = new ASTExpressionNegation(std::unique_ptr<ASTExpression>($2));
+} | primary;
 
 primary: ID {
   $$ = new ASTExpressionVariable($1);
@@ -296,8 +300,8 @@ call: ID LPAREN args RPAREN {
    $$->push_back($1);
  } ;
 constant: int_lit {$$ = new ASTExpressionInt($1);} | flt_lit {$$ = new ASTExpressionFloat($1);} | STRING_LITERAL {$$ = new ASTExpressionString(std::string($1));};
-int_lit: INT_LITERAL | ARITH_MINUS INT_LITERAL {$$ = -1 * $2;};
-flt_lit: FLOAT_LITERAL | ARITH_MINUS FLOAT_LITERAL {$$ = -1 * $2;};
+int_lit: INT_LITERAL;
+flt_lit: FLOAT_LITERAL;
 
 %%
 int main(int argc, char **argv) {

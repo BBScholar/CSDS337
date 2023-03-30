@@ -10,7 +10,7 @@ bool ASTExpressionNegation::IsLValue(ASTFunction& func) {
 }
 
 llvm::Value* ASTExpressionNegation::Compile(llvm::IRBuilder<>& builder, ASTFunction& func) {
-    auto* value = expr->Compile(builder, func);
+    auto* value = expr->CompileRValue(builder, func);
 
     auto retType = ReturnType(func); 
     if(retType->Equals(&VarTypeSimple::IntType)) {

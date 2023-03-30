@@ -20,5 +20,15 @@ int main() {
         printf("NO bruh\n");
     }
 
+    if(a == 1 && b == 3) {
+        printf("Bruh\n");
+    } else {
+        printf("NO bruh\n");
+    }
+
+    if(b > 1) {
+        printf("hello\n");
+    }
+
     return 0;
 }
