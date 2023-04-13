@@ -43,7 +43,8 @@ static std::stringstream ss;
 "/" {return ARITH_DIV;}
 "%" {return ARITH_MOD;}
 "..." {return VARIADIC;}
-"false" | "true" {yylval.boolval = strcmp(yytext, "true") == 0; return BOOL_LITERAL;}
+"false" {yylval.boolval = strcmp(yytext, "true") == 0; return BOOL_LITERAL;}
+"true" {yylval.boolval = strcmp(yytext, "true") == 0; return BOOL_LITERAL;}
 [0-9]+ {yylval.intval = atoi(yytext); return INT_LITERAL;}
 ([0-9]+[.])?[0-9]+ {yylval.fltval = atof(yytext); return FLOAT_LITERAL;}
 

@@ -12,6 +12,8 @@ void ASTStatementFor::Compile(llvm::Module& mod, llvm::IRBuilder<>& builder, AST
         forLoop 
     
     */
+    // cast to bool
+    ASTExpression::ImplicitCast(func, condition, &VarTypeSimple::BoolType);
 
     auto* funcVal = (llvm::Function*) func.GetVariableValue(func.name);
 

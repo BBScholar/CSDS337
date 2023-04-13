@@ -36,6 +36,9 @@ void ASTStatementWhile::Compile(llvm::Module& mod, llvm::IRBuilder<>& builder, A
 
     */
 
+    // cast condition to bool 
+    ASTExpression::ImplicitCast(func, condition, &VarTypeSimple::BoolType);
+
     // Create the basic blocks.
     auto* funcVal = (llvm::Function*)func.GetVariableValue(func.name);
     auto whileLoop = llvm::BasicBlock::Create(builder.getContext(), "whileLoop", funcVal);

@@ -11,6 +11,7 @@
 #include "../src/expressions/call.h"
 #include "../src/expressions/int.h"
 #include "../src/expressions/float.h"
+#include "../src/expressions/bool.h"
 #include "../src/expressions/string.h"
 #include "../src/expressions/variable.h"
 #include "../src/expressions/addition.h"
@@ -67,7 +68,7 @@ extern FILE *yyin;
 
 %token ID BOOL_TYPE INT_TYPE FLOAT_TYPE STRING_TYPE VOID_TYPE SEMICOLON LPAREN RPAREN COMMA LBRACE RBRACE IF ELSE WHILE FOR BREAK RETURN EQUALS_SIGN LOGICAL_OR LOGICAL_AND LOGICAL_NOT RELOP_GT RELOP_LT RELOP_GE RELOP_LE RELOP_EQ RELOP_NE ARITH_PLUS ARITH_MINUS ARITH_MULT ARITH_DIV ARITH_MOD VARIADIC BOOL_LITERAL INT_LITERAL FLOAT_LITERAL STRING_LITERAL EOL
 
-%type <boolval> BOOL_LITERAL
+%type <boolval> bool_lit BOOL_LITERAL
 %type <strval> ID STRING_LITERAL
 %type <intval> int_lit INT_LITERAL
 %type <fltval> flt_lit FLOAT_LITERAL
@@ -299,9 +300,10 @@ call: ID LPAREN args RPAREN {
    $$ = new std::vector<ASTExpression *>();
    $$->push_back($1);
  } ;
-constant: int_lit {$$ = new ASTExpressionInt($1);} | flt_lit {$$ = new ASTExpressionFloat($1);} | STRING_LITERAL {$$ = new ASTExpressionString(std::string($1));};
+constant: int_lit {$$ = new ASTExpressionInt($1);} | flt_lit {$$ = new ASTExpressionFloat($1);} | bool_lit {$$ = new ASTExpressionBool($1); } | STRING_LITERAL {$$ = new ASTExpressionString(std::string($1));};
 int_lit: INT_LITERAL;
 flt_lit: FLOAT_LITERAL;
+bool_lit: BOOL_LITERAL;
 
 %%
 int main(int argc, char **argv) {

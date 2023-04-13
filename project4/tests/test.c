@@ -3,6 +3,7 @@ int printf(string fmt, ...);
 int main() {
     int a;
     int b;
+    int c;
 
     a = 1;
     b = 2;
@@ -28,6 +29,18 @@ int main() {
 
     if(b > 1) {
         printf("hello\n");
+    }
+
+    if(true) {
+        printf("Bool literals work.\n");
+    }
+
+    if(a) {
+        printf("Implicit cast works. \n");
+    }
+
+    if(true || false) {
+        printf("Or operation works\n");
     }
 
     return 0;

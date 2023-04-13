@@ -23,8 +23,11 @@ std::unique_ptr<VarType> ASTStatementIf::StatementReturnType(ASTFunction& func)
 void ASTStatementIf::Compile(llvm::Module& mod, llvm::IRBuilder<>& builder, ASTFunction& func)
 {
     // Compile the condition. TODO: TO BOOLEAN CAST CONVERSION?
+    ASTExpression::ImplicitCast(func, condition, &VarTypeSimple::BoolType);
+
     if (!condition->ReturnType(func)->Equals(&VarTypeSimple::BoolType))
         throw std::runtime_error("ERROR: Expected condition that returns a boolean value but got another type instead!");
+
     llvm::Value* cond = condition->Compile(builder, func);
 
     // Create blocks.

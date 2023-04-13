@@ -33,6 +33,7 @@ llvm::Value* ASTExpressionOr::Compile(llvm::IRBuilder<>& builder, ASTFunction& f
     builder.SetInsertPoint(checkRight);
     llvm::Value* rightVal = a2->CompileRValue(builder, func);
     llvm::BasicBlock* lastBlockRight = builder.GetInsertBlock(); // In case the block has changed, fix it.
+    builder.CreateBr(cont);
 
     // Tell LLVM that it should either select the left value or the right one depending on where we came from.
     builder.SetInsertPoint(cont);
